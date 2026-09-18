@@ -1,686 +1,81 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MilkMitra - Smart Dairy Platform</title>
+    <title>Milk Delivery Management System</title>
 
-  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="logo">
-      🥛 MilkMitra
-    </div>
+    <header>
+        <h1>🥛 Milk Delivery Management System</h1>
+        <p>Fresh Milk • Easy Subscription • Affordable Delivery</p>
+    </header>
 
-    <div class="nav-buttons">
-      <button onclick="showPage('home')">Home</button>
-      <button onclick="showPage('calculator')">Fat Calculator</button>
-      <button onclick="showPage('billing')">Billing</button>
-      <button onclick="showPage('subscription')">Subscription</button>
-      <button onclick="showPage('dashboard')">Dashboard</button>
-    </div>
+    <main class="login-container">
 
-    <button class="theme-btn" onclick="toggleDarkMode()">🌙</button>
-  </nav>
+        <h2>Login</h2>
+        <p>Select your account type</p>
 
+        <div class="role-container">
 
-  <!-- HOME -->
-  <section id="home" class="page active">
+            <button onclick="showLogin('farmer')">
+                👨‍🌾 Farmer Login
+            </button>
 
-    <div class="hero">
+            <button onclick="showLogin('customer')">
+                👤 Customer Login
+            </button>
 
-      <div class="hero-content">
-
-        <span class="badge">SMART DAIRY PLATFORM</span>
-
-        <h1>
-          Smart Milk Pricing
-          <br>
-          Based on <span>Fat %</span>
-        </h1>
-
-        <p>
-          MilkMitra helps local dairy sellers calculate milk prices,
-          manage customers, subscriptions and monthly bills easily.
-        </p>
-
-        <div class="hero-buttons">
-          <button class="primary" onclick="showPage('calculator')">
-            Calculate Milk Price
-          </button>
-
-          <button class="secondary" onclick="showPage('login')">
-            Login
-          </button>
-        </div>
-
-      </div>
-
-      <div class="milk-card">
-
-        <div class="milk-icon">
-          🥛
-        </div>
-
-        <h3>Today's Milk</h3>
-
-        <div class="big-price" id="homeAmount">
-          ₹42/L
-        </div>
-
-        <p>Based on sample 4.0% fat rate</p>
-
-      </div>
-
-    </div>
-
-
-    <!-- FEATURES -->
-
-    <div class="features">
-
-      <div class="feature-card">
-        <div class="feature-icon">🧮</div>
-        <h3>Fat Calculator</h3>
-        <p>
-          Automatically calculate milk rate according to fat percentage.
-        </p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🧾</div>
-        <h3>Smart Billing</h3>
-        <p>
-          Generate customer bills automatically.
-        </p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">📅</div>
-        <h3>Subscription</h3>
-        <p>
-          Manage daily milk subscriptions.
-        </p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🧪</div>
-        <h3>Milk Quality</h3>
-        <p>
-          Maintain fat, SNF and temperature records.
-        </p>
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- LOGIN -->
-
-  <section id="login" class="page">
-
-    <div class="login-container">
-
-      <div class="login-card">
-
-        <h2>MilkMitra Login</h2>
-
-        <p class="login-text">
-          Select your account type
-        </p>
-
-        <div class="role-buttons">
-
-          <button onclick="selectRole('customer')">
-            👤 Customer
-          </button>
-
-          <button onclick="selectRole('farmer')">
-            👨‍🌾 Farmer / Seller
-          </button>
+            <button onclick="showLogin('admin')">
+                🏪 Dairy / Admin Login
+            </button>
 
         </div>
 
+        <div id="loginBox" class="login-box">
 
-        <div id="loginForm" class="hidden">
+            <h3 id="loginTitle">Select Login Type</h3>
 
-          <label>Name</label>
+            <input
+                type="text"
+                id="mobile"
+                placeholder="Enter Mobile Number"
+                maxlength="10"
+            >
 
-          <input
-            id="loginName"
-            type="text"
-            placeholder="Enter your name"
-          >
+            <button onclick="sendOTP()">Send OTP</button>
 
-          <label>Mobile Number</label>
+            <div id="otpBox" style="display:none;">
 
-          <input
-            id="loginMobile"
-            type="tel"
-            maxlength="10"
-            placeholder="Enter mobile number"
-          >
+                <input
+                    type="text"
+                    id="otp"
+                    placeholder="Enter OTP"
+                    maxlength="6"
+                >
 
-          <button
-            class="primary full"
-            onclick="loginUser()"
-          >
-            Login
-          </button>
+                <button onclick="verifyOTP()">Verify OTP</button>
 
-        </div>
+            </div>
 
-        <p id="selectedRole"></p>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- FAT CALCULATOR -->
-
-  <section id="calculator" class="page">
-
-    <div class="section-title">
-
-      <span class="badge">
-        MILK RATE
-      </span>
-
-      <h2>Fat-Based Milk Calculator</h2>
-
-      <p>
-        Enter quantity and fat percentage.
-      </p>
-
-    </div>
-
-
-    <div class="calculator-grid">
-
-      <!-- Calculator -->
-
-      <div class="card">
-
-        <h3>Milk Details</h3>
-
-        <label>
-          Quantity (Litres)
-        </label>
-
-        <input
-          id="quantity"
-          type="number"
-          min="0.1"
-          step="0.1"
-          value="1"
-          oninput="calculateMilk()"
-        >
-
-
-        <label>
-          Fat Percentage (%)
-        </label>
-
-        <input
-          id="fat"
-          type="number"
-          min="0"
-          max="15"
-          step="0.1"
-          value="4"
-          oninput="calculateMilk()"
-        >
-
-
-        <div class="result-box">
-
-          <div>
-            <span>Fat</span>
-            <strong id="resultFat">
-              4.0%
-            </strong>
-          </div>
-
-          <div>
-            <span>Rate</span>
-            <strong id="resultRate">
-              ₹42/L
-            </strong>
-          </div>
-
-          <div>
-            <span>Total</span>
-            <strong id="resultAmount">
-              ₹42
-            </strong>
-          </div>
+            <p id="message"></p>
 
         </div>
 
+    </main>
 
-        <button
-          class="primary full"
-          onclick="addMilkBill()"
-        >
-          + Add To Bill
-        </button>
+    <footer>
+        <p>© 2026 Milk Delivery Management System</p>
+    </footer>
 
-      </div>
-
-
-
-      <!-- RATE CHART -->
-
-      <div class="card">
-
-        <h3>Fat Rate Chart</h3>
-
-        <p class="muted">
-          Sample rates. You can change them in JavaScript.
-        </p>
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>Fat</th>
-              <th>Rate / L</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td>3.0%</td>
-              <td>₹36</td>
-            </tr>
-
-            <tr>
-              <td>3.5%</td>
-              <td>₹40</td>
-            </tr>
-
-            <tr>
-              <td>4.0%</td>
-              <td>₹42</td>
-            </tr>
-
-            <tr>
-              <td>4.5%</td>
-              <td>₹44</td>
-            </tr>
-
-            <tr>
-              <td>5.0%</td>
-              <td>₹47</td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- BILLING -->
-
-  <section id="billing" class="page">
-
-    <div class="section-title">
-
-      <span class="badge">BILLING</span>
-
-      <h2>Milk Bill History</h2>
-
-      <p>All milk entries are stored in your browser.</p>
-
-    </div>
-
-
-    <div class="stats">
-
-      <div class="stat-card">
-        <span>Total Milk</span>
-        <strong id="totalLitres">
-          0 L
-        </strong>
-      </div>
-
-      <div class="stat-card">
-        <span>Total Amount</span>
-        <strong id="totalAmount">
-          ₹0
-        </strong>
-      </div>
-
-      <div class="stat-card">
-        <span>Average Fat</span>
-        <strong id="averageFat">
-          0%
-        </strong>
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="table-container">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Quantity</th>
-              <th>Fat</th>
-              <th>Rate</th>
-              <th>Amount</th>
-              <th>Action</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="billTable">
-
-            <tr>
-              <td colspan="7" class="empty">
-                No bills available.
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-      <button
-        class="danger"
-        onclick="clearBills()"
-      >
-        Clear All Bills
-      </button>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- SUBSCRIPTION -->
-
-  <section id="subscription" class="page">
-
-    <div class="section-title">
-
-      <span class="badge">
-        SUBSCRIPTION
-      </span>
-
-      <h2>Daily Milk Subscription</h2>
-
-      <p>
-        Choose your daily milk quantity.
-      </p>
-
-    </div>
-
-
-    <div class="subscription-grid">
-
-      <div class="subscription-card">
-
-        <div class="sub-icon">
-          🥛
-        </div>
-
-        <h3>500 ML</h3>
-
-        <h2>₹21/day</h2>
-
-        <p>Approx monthly ₹630</p>
-
-        <button
-          class="primary full"
-          onclick="subscribe(0.5)"
-        >
-          Subscribe
-        </button>
-
-      </div>
-
-
-      <div class="subscription-card popular">
-
-        <div class="popular-label">
-          POPULAR
-        </div>
-
-        <div class="sub-icon">
-          🥛
-        </div>
-
-        <h3>1 Litre</h3>
-
-        <h2>₹42/day</h2>
-
-        <p>Approx monthly ₹1,260</p>
-
-        <button
-          class="primary full"
-          onclick="subscribe(1)"
-        >
-          Subscribe
-        </button>
-
-      </div>
-
-
-      <div class="subscription-card">
-
-        <div class="sub-icon">
-          🥛🥛
-        </div>
-
-        <h3>2 Litres</h3>
-
-        <h2>₹84/day</h2>
-
-        <p>Approx monthly ₹2,520</p>
-
-        <button
-          class="primary full"
-          onclick="subscribe(2)"
-        >
-          Subscribe
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div
-      class="subscription-result"
-      id="subscriptionResult"
-    >
-      No active subscription.
-    </div>
-
-  </section>
-
-
-
-  <!-- DASHBOARD -->
-
-  <section id="dashboard" class="page">
-
-    <div class="section-title">
-
-      <span class="badge">
-        DASHBOARD
-      </span>
-
-      <h2>MilkMitra Dashboard</h2>
-
-      <p id="welcomeUser">
-        Welcome!
-      </p>
-
-    </div>
-
-
-    <div class="dashboard-grid">
-
-      <div class="dashboard-card">
-
-        <span>🥛 Today's Milk</span>
-
-        <strong id="dashMilk">
-          0 L
-        </strong>
-
-      </div>
-
-      <div class="dashboard-card">
-
-        <span>💰 Total Sales</span>
-
-        <strong id="dashSales">
-          ₹0
-        </strong>
-
-      </div>
-
-      <div class="dashboard-card">
-
-        <span>👥 Customers</span>
-
-        <strong id="dashCustomers">
-          0
-        </strong>
-
-      </div>
-
-      <div class="dashboard-card">
-
-        <span>📅 Subscription</span>
-
-        <strong id="dashSubscription">
-          None
-        </strong>
-
-      </div>
-
-    </div>
-
-
-
-    <div class="dashboard-grid bottom">
-
-      <div class="card">
-
-        <h3>Recent Activity</h3>
-
-        <div id="recentActivity">
-          <p class="muted">
-            No recent activity.
-          </p>
-        </div>
-
-      </div>
-
-
-      <div class="card">
-
-        <h3>Milk Quality Record</h3>
-
-        <label>
-          Fat %
-        </label>
-
-        <input
-          id="qualityFat"
-          type="number"
-          step="0.1"
-          placeholder="4.2"
-        >
-
-        <label>
-          SNF %
-        </label>
-
-        <input
-          id="snf"
-          type="number"
-          step="0.1"
-          placeholder="8.5"
-        >
-
-        <label>
-          Temperature °C
-        </label>
-
-        <input
-          id="temperature"
-          type="number"
-          step="0.1"
-          placeholder="4.5"
-        >
-
-        <button
-          class="primary full"
-          onclick="saveQuality()"
-        >
-          Save Quality Record
-        </button>
-
-        <div id="qualityResult"></div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- FOOTER -->
-
-  <footer>
-
-    <h3>🥛 MilkMitra</h3>
-
-    <p>
-      Smart local dairy platform
-    </p>
-
-    <p>
-      © 2026 MilkMitra
-    </p>
-
-  </footer>
-
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
+```
