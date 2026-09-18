@@ -1,66 +1,80 @@
-```javascript
-let selectedRole = "";
-let generatedOTP = "";
-
-function showLogin(role) {
-
-    selectedRole = role;
-
-    const title = document.getElementById("loginTitle");
-
-    if (role === "farmer") {
-        title.innerText = "👨‍🌾 Farmer Login";
-    }
-
-    else if (role === "customer") {
-        title.innerText = "👤 Customer Login";
-    }
-
-    else if (role === "admin") {
-        title.innerText = "🏪 Dairy / Admin Login";
-    }
-
-    document.getElementById("message").innerText = "";
-    document.getElementById("otpBox").style.display = "none";
+```css
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
-
-function sendOTP() {
-
-    const mobile = document.getElementById("mobile").value;
-
-    if (mobile.length !== 10 || isNaN(mobile)) {
-        document.getElementById("message").innerText =
-            "Please enter a valid 10-digit mobile number.";
-        return;
-    }
-
-    // Demo OTP
-    generatedOTP = Math.floor(100000 + Math.random() * 900000);
-
-    console.log("Demo OTP:", generatedOTP);
-
-    document.getElementById("otpBox").style.display = "block";
-
-    document.getElementById("message").innerText =
-        "OTP sent successfully. (Demo OTP: " + generatedOTP + ")";
+body {
+    background: #f4f8f4;
+    min-height: 100vh;
+    color: #222;
 }
 
-
-function verifyOTP() {
-
-    const enteredOTP = document.getElementById("otp").value;
-
-    if (enteredOTP === generatedOTP.toString()) {
-
-        document.getElementById("message").innerText =
-            "✅ OTP Verified! " + selectedRole + " login successful.";
-
-    } else {
-
-        document.getElementById("message").innerText =
-            "❌ Invalid OTP. Please try again.";
-
-    }
+header {
+    background: #2e7d32;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
 }
+
+header h1 {
+    margin-bottom: 8px;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    text-align: center;
+}
+
+.roles {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+button {
+    width: 100%;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    background: #2e7d32;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1b5e20;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+#otpSection {
+    display: none;
+    margin-top: 10px;
+}
+
+#loginBox {
+    display: none;
+}
+
+#message {
+    margin-top:
 ```
+
