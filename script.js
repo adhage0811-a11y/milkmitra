@@ -1,66 +1,62 @@
-```javascript
 let selectedRole = "";
 let generatedOTP = "";
 
 function showLogin(role) {
-
     selectedRole = role;
 
     const title = document.getElementById("loginTitle");
 
     if (role === "farmer") {
-        title.innerText = "👨‍🌾 Farmer Login";
-    }
-
+        title.textContent = "👨‍🌾 Farmer Login";
+    } 
     else if (role === "customer") {
-        title.innerText = "👤 Customer Login";
-    }
-
+        title.textContent = "👤 Customer Login";
+    } 
     else if (role === "admin") {
-        title.innerText = "🏪 Dairy / Admin Login";
+        title.textContent = "🏪 Dairy / Admin Login";
     }
 
-    document.getElementById("message").innerText = "";
     document.getElementById("otpBox").style.display = "none";
+    document.getElementById("message").textContent = "";
+    document.getElementById("mobile").value = "";
+    document.getElementById("otp").value = "";
 }
 
-
 function sendOTP() {
+    const mobile = document.getElementById("mobile").value.trim();
 
-    const mobile = document.getElementById("mobile").value;
-
-    if (mobile.length !== 10 || isNaN(mobile)) {
-        document.getElementById("message").innerText =
-            "Please enter a valid 10-digit mobile number.";
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+        document.getElementById("message").textContent =
+            "❌ Enter a valid 10-digit Indian mobile number.";
         return;
     }
 
-    // Demo OTP
     generatedOTP = Math.floor(100000 + Math.random() * 900000);
-
-    console.log("Demo OTP:", generatedOTP);
 
     document.getElementById("otpBox").style.display = "block";
 
-    document.getElementById("message").innerText =
-        "OTP sent successfully. (Demo OTP: " + generatedOTP + ")";
+    document.getElementById("message").textContent =
+        "✅ Demo OTP: " + generatedOTP;
 }
-
 
 function verifyOTP() {
+    const enteredOTP = document.getElementById("otp").value.trim();
 
-    const enteredOTP = document.getElementById("otp").value;
+    if (!generatedOTP) {
+        document.getElementById("message").textContent =
+            "❌ First click Send OTP.";
+        return;
+    }
 
-    if (enteredOTP === generatedOTP.toString()) {
-
-        document.getElementById("message").innerText =
-            "✅ OTP Verified! " + selectedRole + " login successful.";
-
-    } else {
-
-        document.getElementById("message").innerText =
-            "❌ Invalid OTP. Please try again.";
-
+    if (enteredOTP === String(generatedOTP)) {
+        document.getElementById("message").textContent =
+            "✅ OTP Verified! " +
+            selectedRole.charAt(0).toUpperCase() +
+            selectedRole.slice(1) +
+            " login successful.";
+    } 
+    else {
+        document.getElementById("message").textContent =
+            "❌ Wrong OTP. Please try again.";
     }
 }
-```
