@@ -7,75 +7,231 @@
 
     <title>Milk Delivery Management System</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8f4;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+
+        .roles {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            background: #2e7d32;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #otpSection {
+            display: none;
+            margin-top: 10px;
+        }
+
+        #loginBox {
+            display: none;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+        }
+    </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>🥛 Milk Delivery Management System</h1>
-        <p>Fresh Milk • Easy Subscription • Affordable Delivery</p>
-    </header>
+<header>
+    <h1>🥛 Milk Delivery Management System</h1>
+    <p>Fresh Milk • Easy Subscription • Affordable Delivery</p>
+</header>
 
-    <main class="login-container">
+<div class="container">
 
-        <h2>Login</h2>
-        <p>Select your account type</p>
+    <h2>Choose Login</h2>
 
-        <div class="role-container">
+    <div class="roles">
 
-            <button onclick="showLogin('farmer')">
-                👨‍🌾 Farmer Login
-            </button>
+        <button type="button" onclick="selectRole('Farmer')">
+            👨‍🌾 Farmer Login
+        </button>
 
-            <button onclick="showLogin('customer')">
-                👤 Customer Login
-            </button>
+        <button type="button" onclick="selectRole('Customer')">
+            👤 Customer Login
+        </button>
 
-            <button onclick="showLogin('admin')">
-                🏪 Dairy / Admin Login
-            </button>
+        <button type="button" onclick="selectRole('Admin')">
+            🏪 Dairy / Admin Login
+        </button>
 
-        </div>
+    </div>
 
-        <div id="loginBox" class="login-box">
+    <div id="loginBox">
 
-            <h3 id="loginTitle">Select Login Type</h3>
+        <h3 id="roleTitle"></h3>
+
+        <input
+            type="tel"
+            id="mobile"
+            placeholder="Enter 10-digit mobile number"
+            maxlength="10"
+        >
+
+        <button type="button" onclick="sendOTP()">
+            Send OTP
+        </button>
+
+        <div id="otpSection">
 
             <input
                 type="text"
-                id="mobile"
-                placeholder="Enter Mobile Number"
-                maxlength="10"
+                id="otp"
+                placeholder="Enter OTP"
+                maxlength="6"
             >
 
-            <button onclick="sendOTP()">Send OTP</button>
-
-            <div id="otpBox" style="display:none;">
-
-                <input
-                    type="text"
-                    id="otp"
-                    placeholder="Enter OTP"
-                    maxlength="6"
-                >
-
-                <button onclick="verifyOTP()">Verify OTP</button>
-
-            </div>
-
-            <p id="message"></p>
+            <button type="button" onclick="verifyOTP()">
+                Verify OTP
+            </button>
 
         </div>
 
-    </main>
+        <p id="message"></p>
 
-    <footer>
-        <p>© 2026 Milk Delivery Management System</p>
-    </footer>
+    </div>
 
-    <script src="script.js"></script>
+</div>
+
+<footer>
+    © 2026 Milk Delivery Management System
+</footer>
+
+
+<script>
+
+    let selectedRole = "";
+    let generatedOTP = "";
+
+    function selectRole(role) {
+
+        selectedRole = role;
+
+        document.getElementById("loginBox").style.display = "block";
+
+        document.getElementById("roleTitle").innerText =
+            role + " Login";
+
+        document.getElementById("message").innerText = "";
+
+        document.getElementById("otpSection").style.display = "none";
+
+        document.getElementById("mobile").value = "";
+
+        document.getElementById("otp").value = "";
+    }
+
+
+    function sendOTP() {
+
+        let mobile = document.getElementById("mobile").value;
+
+        if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+
+            document.getElementById("message").innerText =
+                "❌ Enter a valid 10-digit mobile number.";
+
+            return;
+        }
+
+        generatedOTP =
+            Math.floor(100000 + Math.random() * 900000);
+
+        document.getElementById("otpSection").style.display = "block";
+
+        document.getElementById("message").innerText =
+            "✅ Demo OTP: " + generatedOTP;
+    }
+
+
+    function verifyOTP() {
+
+        let enteredOTP =
+            document.getElementById("otp").value;
+
+        if (enteredOTP === generatedOTP.toString()) {
+
+            document.getElementById("message").innerText =
+                "✅ OTP Verified! " +
+                selectedRole +
+                " Login Successful.";
+
+        } else {
+
+            document.getElementById("message").innerText =
+                "❌ Wrong OTP.";
+
+        }
+    }
+
+</script>
 
 </body>
 </html>
 ```
+
